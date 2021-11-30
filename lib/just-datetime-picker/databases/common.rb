@@ -53,11 +53,13 @@ module Just
               hour_value       = self.send(hour_attribute)
               minute_value     = self.send(minute_attribute)
 
-              self.errors[hour_attribute].each{ |e| self.errors[field_name] << e }
-              self.errors[minute_attribute].each{ |e| self.errors[field_name] << e }
-              self.errors[date_attribute].each{ |e| self.errors[field_name] << e }
-              
-              self.errors[field_name].uniq!
+              err = []
+              self.errors[hour_attribute].each{ |e| err << e }
+              self.errors[minute_attribute].each{ |e| err << e }
+              self.errors[date_attribute].each{ |e| err << e }
+
+              err.uniq.each{ |it| self.errors[field_name] << it }
+              self.errors[field_name]
             end          
 
 
